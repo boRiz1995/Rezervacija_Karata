@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Kontroler.AdminKontroler">
+   <children>
+      <BarChart layoutX="2.0" layoutY="220.0" prefHeight="172.0" prefWidth="592.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <Button fx:id="UnesiPredstavu" layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onAction="#kreirajPredstavuQuery" text="UnesiPredstavu" />
+      <Button fx:id="ExitAdmin" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" onAction="#exitAdmin" text="ExitAdmin" />
+      <TableView layoutX="118.0" layoutY="14.0" prefHeight="200.0" prefWidth="468.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Naziv" />
+          <TableColumn prefWidth="75.0" text="Datum" />
+            <TableColumn prefWidth="75.0" text="Vrijeme" />
+            <TableColumn prefWidth="75.0" text="Cijena" />
+            <TableColumn prefWidth="75.0" text="Akcije" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
