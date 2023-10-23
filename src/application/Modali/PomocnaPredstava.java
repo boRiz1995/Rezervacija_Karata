@@ -17,6 +17,20 @@ public class PomocnaPredstava extends Predstava{
 			LocalDate datumIzvodjenja, double cijena) {
 		super(naziv, tip, direktor, vrijemeIzvodjenja, datumIzvodjenja, cijena);
 		// TODO Auto-generated constructor stub
+		this.info=new Button("Info");
+		this.rezervisi=new Button("Rezervisi");
+	}
+	public Button getInfo() {
+		return info;
+	}
+	public void setInfo(Button info) {
+		this.info = info;
+	}
+	public Button getRezervisi() {
+		return rezervisi;
+	}
+	public void setRezervisi(Button rezervisi) {
+		this.rezervisi = rezervisi;
 	}
 
 }

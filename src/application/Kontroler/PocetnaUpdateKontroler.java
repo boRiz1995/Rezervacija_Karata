@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 import application.Modali.Avatar;
+import application.Modali.PomocnaPredstava;
 import application.Modali.Predstava;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -34,15 +35,19 @@ public class PocetnaUpdateKontroler implements Initializable {
 	@FXML
     private Button avatarInfoButton;
 	@FXML
-	private TableView<Predstava> tvPredstava;
+	private TableView<PomocnaPredstava> tvPredstava;
 	@FXML
-	private TableColumn<Predstava,String> colNaziv;
+	private TableColumn<PomocnaPredstava,String> colNaziv;
 	@FXML
-	private TableColumn<Predstava,String> colDatum;
+	private TableColumn<PomocnaPredstava,String> colDatum;
 	@FXML
-	private TableColumn<Predstava,String> colVrijeme;
+	private TableColumn<PomocnaPredstava,String> colVrijeme;
 	@FXML
-	private TableColumn<Predstava,Double> colCijena;
+	private TableColumn<PomocnaPredstava,Double> colCijena;
+	@FXML
+	private TableColumn<PomocnaPredstava,Button> colAkcija1;
+	@FXML
+	private TableColumn<PomocnaPredstava,Button> colAkcija2;
 	@FXML
 	private DatePicker datumIzvedbe;
 	@FXML
@@ -82,7 +87,7 @@ public class PocetnaUpdateKontroler implements Initializable {
 		    String username = "root";
 		    String dbPassword = "jbbov123456";
 
-		    ObservableList<Predstava>predstavaList = FXCollections.observableArrayList();
+		    ObservableList<PomocnaPredstava>Pom_predstavaList = FXCollections.observableArrayList();
 		try {
            // Connect to the database
            Connection connection = DriverManager.getConnection(url, username, dbPassword);
@@ -99,8 +104,8 @@ public class PocetnaUpdateKontroler implements Initializable {
                LocalDate datum = resultSet.getDate("datumIzvodjenja").toLocalDate();
                double cijena=resultSet.getDouble("Cijena");
 
-               Predstava predstava = new Predstava(naziv,tip,direktor,vrijeme,datum,cijena);
-               predstavaList.add(predstava);
+               PomocnaPredstava Pom_predstava = new PomocnaPredstava(naziv,tip,direktor,vrijeme,datum,cijena);
+               Pom_predstavaList.add(Pom_predstava);
                
            }
 
@@ -109,17 +114,17 @@ public class PocetnaUpdateKontroler implements Initializable {
            statement.close();
            connection.close();
                
-               ObservableList<Predstava> filteredList = FXCollections.observableArrayList();
+               ObservableList<PomocnaPredstava> Pom_filteredList = FXCollections.observableArrayList();
                
-               for (Predstava predstava : predstavaList) {
-                   LocalDate predstavaDate = predstava.getDatumIzvodjenja();
-                   LocalTime predstavaTime = predstava.getVrijemeIzvodjenja();
+               for (PomocnaPredstava Pom_predstava : Pom_predstavaList) {
+                   LocalDate predstavaDate = Pom_predstava.getDatumIzvodjenja();
+                   LocalTime predstavaTime = Pom_predstava.getVrijemeIzvodjenja();
                    
                    if (predstavaDate.isBefore(LocalDate.now()) || 
                        (predstavaDate.equals(LocalDate.now()) && predstavaTime.isBefore(LocalTime.now()))) {
-                       filteredList.remove(predstava);
+                       Pom_filteredList.remove(Pom_predstava);
                    }else {
-                   	filteredList.add(predstava);
+                   	Pom_filteredList.add(Pom_predstava);
                    }
                }
                colNaziv.setCellValueFactory(new PropertyValueFactory<>("naziv"));
@@ -132,13 +137,15 @@ public class PocetnaUpdateKontroler implements Initializable {
                    return new SimpleStringProperty(vrijeme.toString());
                });
                colCijena.setCellValueFactory(new PropertyValueFactory<>("cijena"));
-               
-
-               if (filteredList.isEmpty()) {
-                   Predstava placeholderPredstava = new Predstava("Nema Predstava na Repertoaru", "", "", LocalTime.of(0, 0), LocalDate.now(), 0.0);
-                   tvPredstava.setItems(FXCollections.observableArrayList(placeholderPredstava));
+              //dugmad za info i rezervisi
+               colAkcija1.setCellValueFactory(new PropertyValueFactory<>("info"));
+               colAkcija2.setCellValueFactory(new PropertyValueFactory<>("rezervisi"));
+//
+               if (Pom_filteredList.isEmpty()) {
+                   PomocnaPredstava placeholderPomPredstava = new PomocnaPredstava("Nema Predstava na Repertoaru", "", "", LocalTime.of(0, 0), LocalDate.now(), 0.0);
+                   tvPredstava.setItems(FXCollections.observableArrayList(placeholderPomPredstava));
                } else {
-               	tvPredstava.setItems(filteredList);
+               	tvPredstava.setItems(Pom_filteredList);
                }
        } catch (SQLException e) {
            e.printStackTrace();

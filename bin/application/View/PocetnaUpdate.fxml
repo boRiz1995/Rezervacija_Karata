@@ -33,10 +33,11 @@
                       <TableColumn fx:id="colNaziv" prefWidth="75.0" text="Naziv" />
                       <TableColumn fx:id="colDatum" prefWidth="75.0" text="Datum" />
                         <TableColumn fx:id="colVrijeme" prefWidth="75.0" text="Vrijeme" />
-                        <TableColumn fx:id="colCijena" prefWidth="75.0" text="Cijena" />
-          				  <TableColumn fx:id="colAkcije" prefWidth="444.00006103515625" text="Akcije">
+                        <TableColumn fx:id="colCijena" prefWidth="118.40005493164062" text="Cijena" />
+          				  <TableColumn fx:id="colAkcija1" minWidth="0.0" prefWidth="179.199951171875" text="Akcija1">
  
    							</TableColumn>
+                        <TableColumn fx:id="colAkcija2" prefWidth="223.2000732421875" text="Akcija2" />
                     </columns>
                   </TableView>
                </children>
