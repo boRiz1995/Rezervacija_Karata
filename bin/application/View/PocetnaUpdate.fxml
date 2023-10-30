@@ -22,7 +22,7 @@
                   <Label layoutX="168.0" layoutY="103.0" text="Datum:" />
                   <Label layoutX="173.0" layoutY="178.0" prefHeight="18.0" prefWidth="38.0" text="Zanr:" />
                   <Button layoutX="47.0" layoutY="86.0" mnemonicParsing="false" text="Rezervacije" />
-                  <Button fx:id="filter" layoutX="166.0" layoutY="224.0" mnemonicParsing="false" text="Filter" />
+                  <Button fx:id="filter" layoutX="166.0" layoutY="224.0" mnemonicParsing="false" onAction="#filterPredstava" text="Filter" />
                   <Button fx:id="refresh" layoutX="237.0" layoutY="224.0" mnemonicParsing="false" onAction="#showPredstava" text="Refresh List" />
                </children>
             </AnchorPane>

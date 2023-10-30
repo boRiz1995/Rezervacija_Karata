@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+import application.AlertHelper;
 import application.Modali.Avatar;
 import application.Modali.PomocnaPredstava;
 import application.Modali.Predstava;
@@ -151,6 +152,76 @@ public class PocetnaUpdateKontroler implements Initializable {
            e.printStackTrace();
        }
    }
+    
+    public void filterPredstava() {
+	    String url = "jdbc:mysql://localhost:3306/db";
+	    String username = "root";
+	    String dbPassword = "jbbov123456";
+
+	    ObservableList<PomocnaPredstava> Pom_predstavaList = FXCollections.observableArrayList();
+	    try {
+	        // Connect to the database
+	        Connection connection = DriverManager.getConnection(url, username, dbPassword);
+	        // Execute a query to fetch data from the database
+	        String query = "SELECT Naziv,tip,direktor,vrijemeIzvodjenja,datumIzvodjenja,Cijena FROM predstava";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        ResultSet resultSet = statement.executeQuery();
+	        // Populate the list with data from the database
+	        while (resultSet.next()) {
+	            String naziv = resultSet.getString("Naziv");
+	            String tip = resultSet.getString("tip");
+	            String direktor = resultSet.getString("direktor");
+	            LocalTime vrijeme = resultSet.getTime("vrijemeIzvodjenja").toLocalTime();
+	            LocalDate datum = resultSet.getDate("datumIzvodjenja").toLocalDate();
+	            double cijena = resultSet.getDouble("Cijena");
+
+	            PomocnaPredstava Pom_predstava = new PomocnaPredstava(naziv, tip, direktor, vrijeme, datum, cijena);
+	            Pom_predstavaList.add(Pom_predstava);
+	        }
+
+	        // Close the database connection
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+
+	        ObservableList<PomocnaPredstava> Pom_filteredList = FXCollections.observableArrayList();
+
+	        LocalDate userSelectedDate = datumIzvedbe.getValue();
+	        LocalTime currentTime = LocalTime.now();
+
+	        for (PomocnaPredstava Pom_predstava : Pom_predstavaList) {
+	            LocalDate predstavaDate = Pom_predstava.getDatumIzvodjenja();
+	            LocalTime predstavaTime = Pom_predstava.getVrijemeIzvodjenja();
+	            String predstavaTip = Pom_predstava.getTip();
+
+	            if (userSelectedDate.isEqual(LocalDate.now()) && predstavaDate.isEqual(LocalDate.now()) && predstavaTime.isAfter(currentTime) && tip.getValue().equals("Default")) {
+	                Pom_filteredList.add(Pom_predstava);
+	            } else if (userSelectedDate.isAfter(LocalDate.now()) && predstavaDate.isEqual(userSelectedDate) && tip.getValue().equals("Default")) {
+	                Pom_filteredList.add(Pom_predstava);
+	            } else if (predstavaDate.isEqual(userSelectedDate) && predstavaTip.equals(tip.getValue())) {
+	                Pom_filteredList.add(Pom_predstava);
+	            }
+	        }
+
+	        colNaziv.setCellValueFactory(new PropertyValueFactory<>("naziv"));
+	        colDatum.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDatumIzvodjenja().toString()));
+	        colVrijeme.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getVrijemeIzvodjenja().toString()));
+	        colCijena.setCellValueFactory(new PropertyValueFactory<>("cijena"));
+	        //dugmad za info i rezervisi nakon filter
+	        colAkcija1.setCellValueFactory(new PropertyValueFactory<>("info"));
+	        colAkcija2.setCellValueFactory(new PropertyValueFactory<>("rezervisi"));
+	        //
+	        if (Pom_filteredList.isEmpty()) {
+	            PomocnaPredstava placeholderPomPredstava = new PomocnaPredstava("Nema Predstava na Repertoaru", "", "", LocalTime.of(0, 0), LocalDate.now(), 0.0);
+	            tvPredstava.setItems(FXCollections.observableArrayList(placeholderPomPredstava));
+	            AlertHelper.showInfoAlert("No Valid Predstava", "There are no valid predstava for the selected criteria.");
+	        } else {
+	            tvPredstava.setItems(Pom_filteredList);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
