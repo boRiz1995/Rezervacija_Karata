@@ -18,6 +18,7 @@ import application.Modali.Predstava;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -176,6 +178,18 @@ public class PocetnaUpdateKontroler implements Initializable {
 	            double cijena = resultSet.getDouble("Cijena");
 
 	            PomocnaPredstava Pom_predstava = new PomocnaPredstava(naziv, tip, direktor, vrijeme, datum, cijena);
+	            //setonaction
+//	            Pom_predstava.setActioninfo(event -> {
+//	                // Define the action for the button associated with pomocna
+//	                // This code will be executed when the button is clicked
+//	                System.out.println("Button associated with pomocna was clicked!");
+//	            });
+//	            Pom_predstava.setActionrezervisi(event -> {
+//	                // Define the action for the button associated with pomocna
+//	                // This code will be executed when the button is clicked
+//	                System.out.println("Button associated with pomocna was clicked!");
+//	            });
+	            //setonaction
 	            Pom_predstavaList.add(Pom_predstava);
 	        }
 
@@ -210,7 +224,9 @@ public class PocetnaUpdateKontroler implements Initializable {
 	        //dugmad za info i rezervisi nakon filter
 	        colAkcija1.setCellValueFactory(new PropertyValueFactory<>("info"));
 	        colAkcija2.setCellValueFactory(new PropertyValueFactory<>("rezervisi"));
-	        //
+	        //Proba
+	       
+	        //proba
 	        if (Pom_filteredList.isEmpty()) {
 	            PomocnaPredstava placeholderPomPredstava = new PomocnaPredstava("Nema Predstava na Repertoaru", "", "", LocalTime.of(0, 0), LocalDate.now(), 0.0);
 	            tvPredstava.setItems(FXCollections.observableArrayList(placeholderPomPredstava));
@@ -230,5 +246,6 @@ public class PocetnaUpdateKontroler implements Initializable {
 		tip.getItems().addAll("Default","Mjuzikl", "Drama", "Tragedija","Komedija","Avangarda","Dječija");
 		tip.getSelectionModel().selectFirst();
 		showPredstava();
+		
 	}
 }
