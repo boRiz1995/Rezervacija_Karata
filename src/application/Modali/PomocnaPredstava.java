@@ -12,10 +12,13 @@ public class PomocnaPredstava extends Predstava{
 	
 	private Button info;
 	private Button rezervisi;
+	
 	public PomocnaPredstava() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	//dodan avatar u konstruktor
 	public PomocnaPredstava(String naziv, String tip, String direktor, LocalTime vrijemeIzvodjenja,
 			LocalDate datumIzvodjenja, double cijena) {
 		super(naziv, tip, direktor, vrijemeIzvodjenja, datumIzvodjenja, cijena);
@@ -30,13 +33,13 @@ public class PomocnaPredstava extends Predstava{
         	displayTotalInfo();
             // Perform actions specific to the info button click
         });
-
-        this.rezervisi.setOnAction(event -> {
-            System.out.println("Rezervisi button clicked!");
-            // Perform actions specific to the rezervisi button click
-            
-        });
+//        this.rezervisi.setOnAction(event -> {
+//          System.out.println("reservisi button clicked!");
+////      	displayTotalInfo();
+//          // Perform actions specific to the info button click
+//      });
 	}
+	
 	public Button getInfo() {
 		return info;
 	}
@@ -61,6 +64,15 @@ public class PomocnaPredstava extends Predstava{
         // Assuming you have an AlertHelper class with a showAlert method
         AlertHelper.showInfoAlert("Predstava Info",totalInfo); // Display the total information in an alert dialog
     }
+	
+	
+	
+//	private void createAndFillRezervisanaPredstava() {
+//        // Create a RezervisanaPredstava object and fill parameters using available data
+//        RezervisanaPredstava rezervisanaPredstava = new RezervisanaPredstava(
+//            getNaziv(), getTip(), getDirektor(), getVrijemeIzvodjenja(), getDatumIzvodjenja(), getCijena(), avatar
+//        );
+	
 //set on action overrriden
 //	public void setActioninfo(EventHandler<ActionEvent> eventHandler) {
 //       info.setOnAction(eventHandler);

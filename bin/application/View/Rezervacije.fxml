@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Kontroler.RezervisanaPredstavaKontroler">
+   <children>
+      <TableView fx:id="tvRezervacije" layoutX="2.0" layoutY="1.0" prefHeight="348.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="colNaziv" prefWidth="75.0" text="Naziv" />
+          <TableColumn fx:id="colDatum" prefWidth="75.0" text="Datum" />
+            <TableColumn fx:id="colVrijeme" prefWidth="75.0" text="Vrijeme" />
+            <TableColumn fx:id="colCijena" prefWidth="75.0" text="Cijena" />
+            <TableColumn fx:id="colAkcija1" prefWidth="75.0" text="Akcija" />
+        </columns>
+      </TableView>
+      <Button fx:id="cancelButton" layoutX="15.0" layoutY="361.0" mnemonicParsing="false" onAction="#cancel" prefHeight="26.0" prefWidth="567.0" text="Nazad" />
+   </children>
+</AnchorPane>

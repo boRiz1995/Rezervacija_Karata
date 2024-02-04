@@ -15,13 +15,12 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="267.0" prefWidth="750.0">
                <children>
-                  <Label layoutX="300.0" layoutY="14.0" text="Repertoar" />
                   <Button fx:id="avatarInfoButton" layoutX="45.0" layoutY="40.0" mnemonicParsing="false" onAction="#avatarInfo" prefHeight="26.0" prefWidth="75.0" text="AvatarInfo" />
                   <DatePicker fx:id="datumIzvedbe" layoutX="238.0" layoutY="99.0" />
                   <ChoiceBox fx:id="tip" layoutX="237.0" layoutY="173.0" prefHeight="26.0" prefWidth="175.0" />
                   <Label layoutX="168.0" layoutY="103.0" text="Datum:" />
                   <Label layoutX="173.0" layoutY="178.0" prefHeight="18.0" prefWidth="38.0" text="Zanr:" />
-                  <Button layoutX="47.0" layoutY="86.0" mnemonicParsing="false" text="Rezervacije" />
+                  <Button fx:id="rezervacije" layoutX="47.0" layoutY="86.0" mnemonicParsing="false" onAction="#rezervacije" text="Rezervacije" />
                   <Button fx:id="filter" layoutX="166.0" layoutY="224.0" mnemonicParsing="false" onAction="#filterPredstava" text="Filter" />
                   <Button fx:id="refresh" layoutX="237.0" layoutY="224.0" mnemonicParsing="false" onAction="#showPredstava" text="Refresh List" />
                </children>

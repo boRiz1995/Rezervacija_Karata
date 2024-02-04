@@ -1,5 +1,6 @@
 package application.Kontroler;
 
+import java.awt.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -9,12 +10,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import application.AlertHelper;
 import application.Modali.Avatar;
 import application.Modali.PomocnaPredstava;
 import application.Modali.Predstava;
+import application.Modali.RezervisanaPredstava;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +33,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -68,9 +75,8 @@ public class PocetnaUpdateKontroler implements Initializable {
     public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
         // Use the avatar data in the dashboard scene
-        // ...
         
-        avatarInfoButton.setText(avatar.getIme());
+	    avatarInfoButton.setText(avatar.getIme());
     }
     public void avatarInfo() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/View/AvatarInfo.fxml"));
@@ -85,21 +91,71 @@ public class PocetnaUpdateKontroler implements Initializable {
         stage.show();
     }
     
+    public void rezervacije()throws IOException {
+   	 FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/View/Rezervacije.fxml"));
+        Parent root = loader.load();
+
+        RezervisanaPredstavaKontroler rezervisanePred = loader.getController();
+        rezervisanePred.setAvatar(avatar); // Pass the Avatar object
+
+        Stage stage = (Stage) rezervacije.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+	}
+    
     public void showPredstava() {
 		 String url = "jdbc:mysql://localhost:3306/db";
 		    String username = "root";
 		    String dbPassword = "jbbov123456";
-
+		
+		    
 		    ObservableList<PomocnaPredstava>Pom_predstavaList = FXCollections.observableArrayList();
-		try {
+		try {    
+		
+			//2gi kveri
+//		    int someData=0;
+		    //2gikveri
+			 // Connect to the database
+	           Connection connection = DriverManager.getConnection(url, username, dbPassword);
+		
            // Connect to the database
-           Connection connection = DriverManager.getConnection(url, username, dbPassword);
+//	           System.out.println(avatar.getEmail());
+	           //2gi // Second Query
+//	           System.out.println(" oi crnac "+avatarInfoButton.getText());
+//	           String query2 = "SELECT idAvatar FROM avatar WHERE Ime=?";
+//	           PreparedStatement statement2 = connection.prepareStatement(query2);
+////	           statement2.setString(1, "Boris"); // Set the value for the placeholder
+//	           statement2.setString(1,avatarInfoButton.getText() ); // Set the value for the placeholder
+//	           ResultSet resultSet2 = statement2.executeQuery();
+//
+//	           // Use the results from the second query later in your code
+////	           System.out.println(resultSet2.next()+avatarInfoButton.getText());
+//	           while (resultSet2.next()) {
+//	               // Process the results of the second query
+//	               // For example:
+//	               someData = resultSet2.getInt("idAvatar");
+//	               // Use someData as needed
+//	               System.out.println("BOKULJA");
+//	           }
+//System.out.println(someData +" posle bokulje");
+//	           resultSet2.close();
+//	           statement2.close();
+//	           
+//	           
+	           //2gi //second query
+	           
+	           
+//           Connection connection = DriverManager.getConnection(url, username, dbPassword);
            // Execute a query to fetch data from the database
-           String query = "SELECT Naziv,tip,direktor,vrijemeIzvodjenja,datumIzvodjenja,Cijena FROM predstava";
+           String query = "SELECT idPredstava,Naziv,tip,direktor,vrijemeIzvodjenja,datumIzvodjenja,Cijena FROM predstava";
            PreparedStatement statement = connection.prepareStatement(query);
            ResultSet resultSet = statement.executeQuery();
            // Populate the list with data from the database
            while (resultSet.next()) {
+        	   
+      	   int idpredstava=resultSet.getInt("idPredstava");
+        	   
                String naziv = resultSet.getString("Naziv");
                String tip=resultSet.getString("tip");
                String direktor=resultSet.getString("direktor");
@@ -108,15 +164,69 @@ public class PocetnaUpdateKontroler implements Initializable {
                double cijena=resultSet.getDouble("Cijena");
 
                PomocnaPredstava Pom_predstava = new PomocnaPredstava(naziv,tip,direktor,vrijeme,datum,cijena);
+              
+               Pom_predstava.getRezervisi().setOnAction(event -> {
+
+
+				try {
+					int someData=0;
+					Connection connection2 = DriverManager.getConnection(url, username, dbPassword);
+					System.out.println(" oi crnac "+avatarInfoButton.getText());
+			           String query2 = "SELECT idAvatar FROM avatar WHERE Ime=?";
+			           PreparedStatement statement2 = connection2.prepareStatement(query2);
+//			           statement2.setString(1, "Boris"); // Set the value for the placeholder
+			           statement2.setString(1,avatarInfoButton.getText() ); // Set the value for the placeholder
+			           ResultSet resultSet2 = statement2.executeQuery();
+		
+			           // Use the results from the second query later in your code
+//			           System.out.println(resultSet2.next()+avatarInfoButton.getText());
+			           while (resultSet2.next()) {
+			               // Process the results of the second query
+			               // For example:
+			               someData = resultSet2.getInt("idAvatar");
+			               // Use someData as needed
+			               System.out.println("BOKULJA");
+			           }
+//		System.out.println(someData +" posle bokulje");
+		System.out.println("ALERT REZERVISI "+avatarInfoButton.getText()+ idpredstava+"id avatara" +someData);
+			           resultSet2.close();
+			           statement2.close();
+			           connection2.close();
+			           System.out.println(someData +" posle bokulje");
+			           
+			           //insertquery za rezervisanu predstavu
+			           try {
+			        	   Connection connection3 = DriverManager.getConnection(url, username, dbPassword);
+			           String query3="INSERT INTO rezervisana_predstava (avatar_id,idPredstava) VALUES (?,?);";
+			           PreparedStatement statement3=connection3.prepareStatement(query3);
+			           statement3.setInt(1, someData);
+			           statement3.setInt(2, idpredstava);
+			           System.out.println("nakon izvrsavanja 3ceg kverija "+statement3.executeUpdate());
+			           statement3.close();
+			           connection3.close();
+			           }
+			           catch(SQLException exp1) {
+			        	   System.out.println("insert izuzetak za 3cu konekciju");
+			        	   exp1.printStackTrace();
+			           }
+			           //potencijonalno kreiranje rezervisi predstava objekat zbog prenosa na sledecu scenu ???
+			           //insertquery za rez predstavu
+				}
+				catch(SQLException exp) {
+					System.out.println("Konekcija 2 exception pokusaj ");
+					exp.printStackTrace();
+				}
+
+               });
+               
                Pom_predstavaList.add(Pom_predstava);
                
-           }
-
-//            Close the database connection
+           } 
+           
            resultSet.close();
            statement.close();
            connection.close();
-               
+
                ObservableList<PomocnaPredstava> Pom_filteredList = FXCollections.observableArrayList();
                
                for (PomocnaPredstava Pom_predstava : Pom_predstavaList) {
@@ -165,11 +275,14 @@ public class PocetnaUpdateKontroler implements Initializable {
 	        // Connect to the database
 	        Connection connection = DriverManager.getConnection(url, username, dbPassword);
 	        // Execute a query to fetch data from the database
-	        String query = "SELECT Naziv,tip,direktor,vrijemeIzvodjenja,datumIzvodjenja,Cijena FROM predstava";
+	        String query = "SELECT idPredstava,Naziv,tip,direktor,vrijemeIzvodjenja,datumIzvodjenja,Cijena FROM predstava";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        ResultSet resultSet = statement.executeQuery();
 	        // Populate the list with data from the database
 	        while (resultSet.next()) {
+	        	
+	        	int idpredstava=resultSet.getInt("idPredstava");
+	        	
 	            String naziv = resultSet.getString("Naziv");
 	            String tip = resultSet.getString("tip");
 	            String direktor = resultSet.getString("direktor");
@@ -178,18 +291,64 @@ public class PocetnaUpdateKontroler implements Initializable {
 	            double cijena = resultSet.getDouble("Cijena");
 
 	            PomocnaPredstava Pom_predstava = new PomocnaPredstava(naziv, tip, direktor, vrijeme, datum, cijena);
-	            //setonaction
-//	            Pom_predstava.setActioninfo(event -> {
-//	                // Define the action for the button associated with pomocna
-//	                // This code will be executed when the button is clicked
-//	                System.out.println("Button associated with pomocna was clicked!");
-//	            });
-//	            Pom_predstava.setActionrezervisi(event -> {
-//	                // Define the action for the button associated with pomocna
-//	                // This code will be executed when the button is clicked
-//	                System.out.println("Button associated with pomocna was clicked!");
-//	            });
-	            //setonaction
+	            
+	            //rezervisi klik nakon filtriranja
+	            Pom_predstava.getRezervisi().setOnAction(event -> {
+
+
+					try {
+						int someData=0;
+						Connection connection2 = DriverManager.getConnection(url, username, dbPassword);
+						System.out.println(" oi crnac "+avatarInfoButton.getText());
+				           String query2 = "SELECT idAvatar FROM avatar WHERE Ime=?";
+				           PreparedStatement statement2 = connection2.prepareStatement(query2);
+//				           statement2.setString(1, "Boris"); // Set the value for the placeholder
+				           statement2.setString(1,avatarInfoButton.getText() ); // Set the value for the placeholder
+				           ResultSet resultSet2 = statement2.executeQuery();
+			
+				           // Use the results from the second query later in your code
+//				           System.out.println(resultSet2.next()+avatarInfoButton.getText());
+				           while (resultSet2.next()) {
+				               // Process the results of the second query
+				               // For example:
+				               someData = resultSet2.getInt("idAvatar");
+				               // Use someData as needed
+				               System.out.println("BOKULJA");
+				           }
+//			System.out.println(someData +" posle bokulje");
+			System.out.println("ALERT REZERVISI "+avatarInfoButton.getText()+ idpredstava+"id avatara" +someData);
+				           resultSet2.close();
+				           statement2.close();
+				           connection2.close();
+				           System.out.println(someData +" posle bokulje");
+				           
+				           //insertquery za rezervisanu predstavu
+				           try {
+				        	   Connection connection3 = DriverManager.getConnection(url, username, dbPassword);
+				           String query3="INSERT INTO rezervisana_predstava (avatar_id,idPredstava) VALUES (?,?);";
+				           PreparedStatement statement3=connection3.prepareStatement(query3);
+				           statement3.setInt(1, someData);
+				           statement3.setInt(2, idpredstava);
+				           System.out.println("nakon izvrsavanja 3ceg kverija "+statement3.executeUpdate());
+				           statement3.close();
+				           connection3.close();
+				           }
+				           catch(SQLException exp1) {
+				        	   System.out.println("insert izuzetak za 3cu konekciju");
+				        	   exp1.printStackTrace();
+				           }
+				           //potencijonalno kreiranje rezervisi predstava objekat zbog prenosa na sledecu scenu ???
+				           //insertquery za rez predstavu
+					}
+					catch(SQLException exp) {
+						System.out.println("Konekcija 2 exception pokusaj ");
+						exp.printStackTrace();
+					}
+
+	               });
+	            //
+	            
+	            
 	            Pom_predstavaList.add(Pom_predstava);
 	        }
 
@@ -224,9 +383,7 @@ public class PocetnaUpdateKontroler implements Initializable {
 	        //dugmad za info i rezervisi nakon filter
 	        colAkcija1.setCellValueFactory(new PropertyValueFactory<>("info"));
 	        colAkcija2.setCellValueFactory(new PropertyValueFactory<>("rezervisi"));
-	        //Proba
-	       
-	        //proba
+	      
 	        if (Pom_filteredList.isEmpty()) {
 	            PomocnaPredstava placeholderPomPredstava = new PomocnaPredstava("Nema Predstava na Repertoaru", "", "", LocalTime.of(0, 0), LocalDate.now(), 0.0);
 	            tvPredstava.setItems(FXCollections.observableArrayList(placeholderPomPredstava));
