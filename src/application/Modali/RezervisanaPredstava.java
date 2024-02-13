@@ -18,11 +18,12 @@ public class RezervisanaPredstava extends Predstava {
 		this.avatar=avatar;
 		
 		this.otkazi=new Button("Otkazi");
-//		this.otkazi.setOnAction(
-//				event->{
-//					//delete kveri 
-//				}
-//				);
+		this.otkazi.setOnAction(
+				event->{
+					//delete kveri i try catch konekcije
+					System.out.println("Proba");
+				}
+				);
 	}
 
 	public Avatar getAvatar() {

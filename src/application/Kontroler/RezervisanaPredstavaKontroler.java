@@ -118,7 +118,7 @@ public class RezervisanaPredstavaKontroler implements Initializable{
 		        	    ResultSet resultSet1=statement2.executeQuery();
 		        	    while(resultSet1.next()){
 		        	    lista.add(resultSet1.getInt("idPredstava"));
-		        	    System.out.println("mee");
+//		        	    System.out.println("mee");
 		        	    }
 		        	    resultSet1.close();
 		           		statement2.close();
@@ -126,33 +126,122 @@ public class RezervisanaPredstavaKontroler implements Initializable{
 		           		System.out.println(lista.size()+" welicina nakon 2 querija druge konekcije koja je zavrsila");
 		           		try {
 		           		Connection connection3=DriverManager.getConnection(url,username,dbPassword);
-		           		String query3="SELECT Naziv,tip,direktor,vrijemeIzvodjenja,datumIzvodjenja,Cijena FROM predstava where idPredstava="+lista.get(0);
-		        	    PreparedStatement statement3=connection3.prepareStatement(query3);
-		        	    ResultSet resultSet2=statement3.executeQuery();
-//		        	    int j=0;
-		        	    while (resultSet2.next()) {
-        	   
-		        	    	System.out.println("meep"+lista.get(0));
-               
-		        	    	String naziv = resultSet2.getString("Naziv");
-               String tip=resultSet2.getString("tip");
-               String direktor=resultSet2.getString("direktor");
-               LocalTime vrijeme = resultSet2.getTime("vrijemeIzvodjenja").toLocalTime();
-               LocalDate datum = resultSet2.getDate("datumIzvodjenja").toLocalDate();
-               double cijena=resultSet2.getDouble("Cijena");
+		           		//ispravke
+		           		for(Integer ListaClan:lista) {
+		           			String query3="SELECT Naziv,tip,direktor,vrijemeIzvodjenja,datumIzvodjenja,Cijena FROM predstava where idPredstava=?";
+			        	    PreparedStatement statement3=connection3.prepareStatement(query3);
+			        	    statement3.setInt(1, ListaClan);
+			        	    ResultSet resultSet2=statement3.executeQuery();
+//			        	    int j=0;
+			        	    while (resultSet2.next()) {
+	        	   
+			        	    	System.out.println("meep"+lista.get(0));
+	               
+			        	    	String naziv = resultSet2.getString("Naziv");
+	               String tip=resultSet2.getString("tip");
+	               String direktor=resultSet2.getString("direktor");
+	               LocalTime vrijeme = resultSet2.getTime("vrijemeIzvodjenja").toLocalTime();
+	               LocalDate datum = resultSet2.getDate("datumIzvodjenja").toLocalDate();
+	               double cijena=resultSet2.getDouble("Cijena");
 
-               RezervisanaPredstava RezPre= new RezervisanaPredstava(naziv,tip,direktor,vrijeme,datum,cijena,avatar);
-              System.out.println(" pakovanje u listu "+RezPre.getNaziv());
-//              RezPre.getOtkazi().setOnAction(event -> {
-//              //to be delete query uppon clicking this 
-//              }
-               //takodje dio populacije table fx za rezervacije
-               RezervisanaPredstavaList.add(RezPre);
-		       //takodje dio populacije table fx za rezervacije
-		        	     } 
-		        	     
-		        	     //zatvaranje konekcije 3
-		        	   statement3.close();
+	               RezervisanaPredstava RezPre= new RezervisanaPredstava(naziv,tip,direktor,vrijeme,datum,cijena,avatar);
+	              System.out.println(" pakovanje u listu "+RezPre.getNaziv());
+//	              statement3.close();
+	              
+	              //priprema za on clik dogadjaj
+//	              List<Integer> idRezPred=new ArrayList<>();
+//	              try {
+//					  Connection connection4=DriverManager.getConnection(url,username,dbPassword);
+//					  String query4 = "SELECT idRezervisanaPredstava FROM rezervisana_predstava WHERE avatar_id=?";
+//					  PreparedStatement statement4=connection4.prepareStatement(query4);
+//						statement4.setInt(1, idavatar);
+//						ResultSet resultSet3=statement4.executeQuery();
+//					    while (resultSet3.next()) {
+////					    	System.out.println( "Proradi");
+//					    	idRezPred.add(resultSet3.getInt("idRezervisanaPredstava"));
+//					    }
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					System.out.println("konekcija 4 izuzetak ili ti neka greska");
+//					e.printStackTrace();
+//				}
+//	        	    statement4.close();
+//  	    			
+//	              System.out.println(idRezPred.size());
+	              //
+//	              connection3.close();
+//	              RezPre.getOtkazi().setOnAction(event -> {
+//	            	  
+//	            	  try {
+//	            		  
+//	            		  Connection connection5=DriverManager.getConnection(url,username,dbPassword);
+//						  String query5 = "";
+//						  PreparedStatement statement5=connection5.prepareStatement(query5);
+////							statement5.setInt(1, idavatar);
+//							ResultSet resultSet3=statement5.executeQuery();
+//						    while (resultSet3.next()) {
+////						    	System.out.println( "Proradi");
+//						    	idRezPred.add(resultSet3.getInt("idRezervisanaPredstava"));
+//						    }
+//	            		  
+//	            	  }catch(Exception e) {
+//	            		  System.out.println("konekcija 5 izuzetak ili ti neka greska");
+//	            		  e.printStackTrace();
+//	            	  }
+	            	  
+	            	  //statement 4 i statement 5 ce biti ovdje sve na konekciju 3 
+//	            	  u protivnom imaces konekciju 4 i kon 5 za jos 2 dodatna kverija
+//		        	    try {
+//		        	    	Connection connection4=DriverManager.getConnection(url,username,dbPassword);
+//		        	    	String query4="select idRezervisanaPredstava from rezervisana_predstava where avatar_id=?";
+//		        	    	PreparedStatement statement4=connection4.prepareStatement(query4);
+//							statement4.setInt(1, idavatar);
+//						} catch (SQLException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+	            	  //gore je sve to novo
+	            	  
+//	              System.out.println("PROVJERA AKCIJE KLIKNI OTKAZI");
+//	              });
+	               //takodje dio populacije table fx za rezervacije
+	               RezervisanaPredstavaList.add(RezPre);
+			       //takodje dio populacije table fx za rezervacije
+			        	     } 
+			        	     
+			        	     //zatvaranje konekcije 3
+			        	  
+//			        	   connection3.close();
+		           		}
+		           		//ispravke
+		           		
+//		           		String query3="SELECT Naziv,tip,direktor,vrijemeIzvodjenja,datumIzvodjenja,Cijena FROM predstava where idPredstava="+lista.get(0);
+//		        	    PreparedStatement statement3=connection3.prepareStatement(query3);
+//		        	    ResultSet resultSet2=statement3.executeQuery();
+////		        	    int j=0;
+//		        	    while (resultSet2.next()) {
+//        	   
+//		        	    	System.out.println("meep"+lista.get(0));
+//               
+//		        	    	String naziv = resultSet2.getString("Naziv");
+//               String tip=resultSet2.getString("tip");
+//               String direktor=resultSet2.getString("direktor");
+//               LocalTime vrijeme = resultSet2.getTime("vrijemeIzvodjenja").toLocalTime();
+//               LocalDate datum = resultSet2.getDate("datumIzvodjenja").toLocalDate();
+//               double cijena=resultSet2.getDouble("Cijena");
+//
+//               RezervisanaPredstava RezPre= new RezervisanaPredstava(naziv,tip,direktor,vrijeme,datum,cijena,avatar);
+//              System.out.println(" pakovanje u listu "+RezPre.getNaziv());
+////              RezPre.getOtkazi().setOnAction(event -> {
+////              //to be delete query uppon clicking this 
+////              }
+//               //takodje dio populacije table fx za rezervacije
+//               RezervisanaPredstavaList.add(RezPre);
+//		       //takodje dio populacije table fx za rezervacije
+//		        	     } 
+//		        	     
+//		        	     //zatvaranje konekcije 3
+//		        	   statement3.close();
 		        	   connection3.close();
 		        	     //zatvaranje konekcije 3
 		        	     
