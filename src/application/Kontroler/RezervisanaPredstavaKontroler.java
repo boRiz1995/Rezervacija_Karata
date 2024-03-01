@@ -86,16 +86,23 @@ public class RezervisanaPredstavaKontroler implements Initializable{
 	    	ObservableList<RezervisanaPredstava>RezervisanaPredstavaList = FXCollections.observableArrayList();
 	    	//populacija rezervacije table fx 
 	    	List <Integer> lista = new ArrayList<>();
-	    	int idavatar=0;
+//	    	int idavatar=0;
+	    	//final int id avatar
+	    	final int idavatar;
+	    	//final in id avatar
 	    	try {
 				Connection connection = DriverManager.getConnection(url, username, dbPassword);
 				String query = "SELECT idAvatar from avatar where Email=?";
 		           PreparedStatement statement = connection.prepareStatement(query);
 		           statement.setString(1, avatar.getEmail());
 		           ResultSet resultSet = statement.executeQuery();
-		           while (resultSet.next()) {
-		        	   idavatar = resultSet.getInt("idAvatar");
-		           }
+//		           while (resultSet.next()) {
+//		        	   idavatar = resultSet.getInt("idAvatar");
+//		        	   break;
+//		           }
+		       	//final int id avatar
+		           idavatar = resultSet.next() ? resultSet.getInt("idAvatar") : -1;
+			    	//final in id avatar		           
 		           resultSet.close();
 		           statement.close();
 		           connection.close();
@@ -149,7 +156,8 @@ public class RezervisanaPredstavaKontroler implements Initializable{
 //	              statement3.close();
 	              
 	              //priprema za on clik dogadjaj
-//	              List<Integer> idRezPred=new ArrayList<>();
+	              List<Integer> idRezPred=new ArrayList<>();
+	              //privermeni koment
 //	              try {
 //					  Connection connection4=DriverManager.getConnection(url,username,dbPassword);
 //					  String query4 = "SELECT idRezervisanaPredstava FROM rezervisana_predstava WHERE avatar_id=?";
@@ -159,12 +167,67 @@ public class RezervisanaPredstavaKontroler implements Initializable{
 //					    while (resultSet3.next()) {
 ////					    	System.out.println( "Proradi");
 //					    	idRezPred.add(resultSet3.getInt("idRezervisanaPredstava"));
+//					    	break;
 //					    }
+//					    System.out.println(idRezPred.size()+"velicina koja bi trebala da je veca");
+					    //privremeni koment
+//					    Platform.runLater(()->{
+					    
+					    RezPre.getOtkazi().setOnAction(event->{
+					    	
+					    	//kveri4
+					    	try {
+					    	Connection connection4=DriverManager.getConnection(url,username,dbPassword);
+							  String query4 = "SELECT idRezervisanaPredstava FROM rezervisana_predstava WHERE avatar_id=?";
+							  PreparedStatement statement4=connection4.prepareStatement(query4);
+								statement4.setInt(1, idavatar);
+								ResultSet resultSet3=statement4.executeQuery();
+							    while (resultSet3.next()) {
+//							    	System.out.println( "Proradi");
+							    	idRezPred.add(resultSet3.getInt("idRezervisanaPredstava"));
+							    	break;
+							    }
+							    System.out.println(idRezPred.size()+"velicina koja bi trebala da je veca");
+					    	}catch(Exception e) {
+					    		System.out.println("Izuzetak kveri 4 sa final id avatar");
+					    	}
+					    	//kveri4
+					    	
+					    	System.out.println(idRezPred.get(0)+"provjera id rez pred");
+					    	//novi test try catch
+					    	try {
+					            Connection connection5 = DriverManager.getConnection(url, username, dbPassword);
+					            String query5 = "DELETE FROM rezervisana_predstava WHERE idRezervisanaPredstava=?";
+					            PreparedStatement statement5 = connection5.prepareStatement(query5);
+					            statement5.setInt(1, idRezPred.get(0)); // Assuming you want to delete the first element from idRezPred list
+					            statement5.executeUpdate();
+					            //pokusaj popravke da se uzme idrezpredstave
+//					            Platform.runLater(() -> {
+					                // Remove the selected item from the TableView
+					                RezervisanaPredstavaList.remove(RezPre);
+//					            });
+//pokusaj popravke da se uzme idrezpredstave
+					            
+					            idRezPred.remove(0);
+					            System.out.println("Record deleted successfully");
+					        } catch (SQLException e) {
+					            System.out.println("konekcija 5 izuzetak ili ti neka greska pri brisanju");
+					            e.printStackTrace();
+					        }
+					    	//novi test try catch
+//					    	idRezPred.remove(0);
+					    	
+					    	
+					    });
+					    
+//					    });
+					    
 //				} catch (Exception e) {
 //					// TODO Auto-generated catch block
 //					System.out.println("konekcija 4 izuzetak ili ti neka greska");
 //					e.printStackTrace();
 //				}
+	              
 //	        	    statement4.close();
 //  	    			
 //	              System.out.println(idRezPred.size());
@@ -279,9 +342,29 @@ public class RezervisanaPredstavaKontroler implements Initializable{
 	        colAkcija1.setCellValueFactory(new PropertyValueFactory<>("otkazi"));
 			
 //	        for (RezervisanaPredstava rezPredstava : RezervisanaPredstavaList) {
-//	            System.out.println(rezPredstava);
+//	           rezPredstava.getOtkazi().setOnAction(event -> {
+//	        	   RezervisanaPredstavaList.remove(rezPredstava);
+//	        	   try {
+//	        		   Connection connection=DriverManager.getConnection(url,username,dbPassword);
+//						String query = "SELECT idRezervisanaPredstava from rezervisana_predstava where avatar_id=?";
+//				           PreparedStatement statement = connection.prepareStatement(query);
+//				           statement.setInt(1,idavatar);
+//			           ResultSet resultSet = statement.executeQuery();
+//			           while (resultSet.next()) {
+//			        	   lista.add(resultSet.getInt(1));
+//			        	   break;
+//			           }
+//			           resultSet.close();
+//			           statement.close();
+//			           connection.close();
+//	        	   }
+//	        	   catch(Exception e) {}
+//	        	   System.out.println("brisanje listinog clana(Objekat) + izvrsavanje delete kverija i selekcija idrezpred");
+//	        	   
+//	           });
 //	        }
-//	        
+	        
+	        
 	        tvRezervacije.setItems(RezervisanaPredstavaList);
 	        //populacija table fx
 			}

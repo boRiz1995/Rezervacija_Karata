@@ -1,6 +1,7 @@
 package application.Kontroler;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import application.Modali.Avatar;
 import javafx.event.ActionEvent;
@@ -48,6 +49,12 @@ public class AvatarInfoKontroler {
 	        tfPrezime.setText(avatar.getPrezime());
 	        tfEmail.setText(avatar.getEmail());
 	        tfTelefon.setText(avatar.getTelefon());
+	        
+	     // Format the date of birth to a string representation
+//	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+//	        tfDatumRodj.setText((String)dateFormat.format(avatar.getDatumRodjenja()));
+
+	        
 //	        tfDatumRodj.setText((String)avatar.getDatumRodjenja());
 	        // Set the appropriate radio button based on the value of avatar.getPol()
 	       
