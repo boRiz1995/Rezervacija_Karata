@@ -1,8 +1,13 @@
 package application.Kontroler;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import application.AlertHelper;
 import application.Modali.Avatar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +26,8 @@ public class AvatarInfoKontroler {
 	private Button cancelButton;
 	@FXML
 	private Button logOutButton;
+	@FXML
+	private Button obrisiButton;
 	
 	@FXML
 	private TextField tfIme;
@@ -51,10 +58,10 @@ public class AvatarInfoKontroler {
 	        tfTelefon.setText(avatar.getTelefon());
 	        
 	     // Format the date of birth to a string representation
-//	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-//	        tfDatumRodj.setText((String)dateFormat.format(avatar.getDatumRodjenja()));
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        tfDatumRodj.setText((String)dateFormat.format(avatar.getDatumRodjenja()));
 
-	        
+	        System.out.println(avatar.getDatumRodjenja());
 //	        tfDatumRodj.setText((String)avatar.getDatumRodjenja());
 	        // Set the appropriate radio button based on the value of avatar.getPol()
 	       
@@ -91,7 +98,34 @@ public class AvatarInfoKontroler {
 	}
 	
 
-	public void obrisiAvatar() {}
+	public void obrisiAvatar(ActionEvent event)throws IOException {
+		
+		String url = "jdbc:mysql://localhost:3306/db";
+	    String username = "root";
+	    String dbPassword = "jbbov123456";
+	    try {
+	    Connection connection = DriverManager.getConnection(url, username, dbPassword);
+	    String query = "DELETE FROM avatar WHERE Email = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, avatar.getEmail());
+        statement.executeUpdate();
+		
+		 FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/View/Pocetna.fxml"));
+	        Parent root = loader.load();
+	        
+	        Stage stage = (Stage) obrisiButton.getScene().getWindow();
+	        Scene scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+	        }
+	    catch(SQLException e) {
+	    	AlertHelper.showErrorAlert("FAILED DELETE", "CANNOT DELETE USER DUE TO UNKNOWN FACTORS");
+	    	System.out.println("Delete kveri fail");
+	    	e.printStackTrace();
+	    }
+	    
+	    
+	}
 	
 	public void azurirajAvatar() {}
 	
