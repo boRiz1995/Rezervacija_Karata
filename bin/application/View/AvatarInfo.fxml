@@ -11,7 +11,7 @@
    <children>
       <Label layoutX="147.0" layoutY="14.0" text="Ime:" />
       <TextField fx:id="tfPrezime" layoutX="217.0" layoutY="47.0" />
-      <Button layoutX="284.0" layoutY="315.0" mnemonicParsing="false" text="Azuriraj" />
+      <Button fx:id="azurirajButton" layoutX="284.0" layoutY="315.0" mnemonicParsing="false" onAction="#azurirajAvatar" text="Azuriraj" />
       <Button fx:id="obrisiButton" layoutX="167.0" layoutY="315.0" mnemonicParsing="false" onAction="#obrisiAvatar" text="Obrisi Avatar" />
       <Label layoutX="135.0" layoutY="51.0" text="Prezime:" />
       <Label layoutX="146.0" layoutY="87.0" text="Pol:" />
@@ -22,13 +22,13 @@
       <Label layoutX="136.0" layoutY="169.0" text="Telefon:" />
       <TextField fx:id="tfTelefon" layoutX="217.0" layoutY="165.0" />
       <Label layoutX="116.0" layoutY="210.0" text="Datum rodjenja:" />
-      <TextField layoutX="217.0" layoutY="275.0" />
+      <TextField fx:id="tfPasswordConfirm" layoutX="217.0" layoutY="275.0" />
       <RadioButton fx:id="radioM" layoutX="217.0" layoutY="87.0" mnemonicParsing="false" selected="true" text="muski">
          <toggleGroup>
             <ToggleGroup fx:id="tgPol" />
          </toggleGroup></RadioButton>
       <RadioButton fx:id="radioZ" layoutX="312.0" layoutY="87.0" mnemonicParsing="false" text="zenski" />
-      <TextField layoutX="217.0" layoutY="243.0" />
+      <TextField fx:id="tfPassword" layoutX="217.0" layoutY="243.0" />
       <Label layoutX="122.0" layoutY="247.0" text="Password:" />
       <TextField fx:id="tfDatumRodj" layoutX="217.0" layoutY="206.0" />
       <Button fx:id="logOutButton" layoutX="504.0" layoutY="56.0" mnemonicParsing="false" onAction="#logOut" text="Logout" />
