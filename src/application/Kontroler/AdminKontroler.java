@@ -32,4 +32,5 @@ public class AdminKontroler {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
 }
