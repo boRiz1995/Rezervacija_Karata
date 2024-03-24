@@ -8,9 +8,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Kontroler.AdminKontroler">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Kontroler.AdminKontroler">
    <children>
-      <BarChart layoutX="2.0" layoutY="220.0" prefHeight="172.0" prefWidth="592.0">
+      <BarChart layoutX="2.0" layoutY="220.0" prefHeight="172.0" prefWidth="678.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
@@ -20,13 +20,15 @@
       </BarChart>
       <Button fx:id="UnesiPredstavu" layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onAction="#kreirajPredstavuQuery" text="UnesiPredstavu" />
       <Button fx:id="ExitAdmin" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" onAction="#exitAdmin" text="ExitAdmin" />
-      <TableView layoutX="118.0" layoutY="14.0" prefHeight="200.0" prefWidth="468.0">
+      <TableView fx:id="tvPredstava" layoutX="118.0" layoutY="14.0" prefHeight="200.0" prefWidth="564.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Naziv" />
-          <TableColumn prefWidth="75.0" text="Datum" />
-            <TableColumn prefWidth="75.0" text="Vrijeme" />
-            <TableColumn prefWidth="75.0" text="Cijena" />
-            <TableColumn prefWidth="75.0" text="Akcije" />
+          <TableColumn fx:id="colNaziv" prefWidth="75.0" text="Naziv" />
+            <TableColumn fx:id="colTip" prefWidth="75.0" text="Tip" />
+            <TableColumn fx:id="colDirektor" prefWidth="75.0" text="Direktor" />
+          <TableColumn fx:id="colDatum" prefWidth="75.0" text="Datum" />
+            <TableColumn fx:id="colVrijeme" prefWidth="75.0" text="Vrijeme" />
+            <TableColumn fx:id="colCijena" prefWidth="75.0" text="Cijena" />
+            <TableColumn fx:id="colAkcija" prefWidth="75.0" text="Akcija" />
         </columns>
       </TableView>
    </children>
